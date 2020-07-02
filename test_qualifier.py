@@ -168,7 +168,7 @@ class T300AdvancedTests(unittest.TestCase):
         """Before running each test, instantiate some classes which use an ArticleField."""
         class TestArticle:
             """Test class which uses an ArticleField."""
-            attribute = qualifier.ArticleField(field_type=int)
+            article_field = qualifier.ArticleField(field_type=int)
 
         self.article = TestArticle()
         self.article_2 = TestArticle()
@@ -181,30 +181,30 @@ class T300AdvancedTests(unittest.TestCase):
         values = (10, CustomInt(20))
         for value in values:
             with self.subTest(value=value):
-                self.article.attribute = value
+                self.article.article_field = value
                 self.assertEqual(
                     value,
-                    self.article.attribute,
+                    self.article.article_field,
                     msg="The attribute value is not equal to the value that was assigned to it."
                 )
 
     def test_302_descriptor_raises_type_error(self):
         """Setting a value with an invalid type should raise a TypeError."""
         with self.assertRaises(TypeError, msg="Setting an incorrect type should raise a TypeError"):
-            self.article.attribute = "some string"
+            self.article.article_field = "some string"
 
     def test_303_descriptor_values_are_separate(self):
         """Should store a separate value for each instance of a class using the descriptor."""
-        self.article.attribute = 10
-        self.article_2.attribute = 20
+        self.article.article_field = 10
+        self.article_2.article_field = 20
 
-        self.assertEqual(10, self.article.attribute)
-        self.assertEqual(20, self.article_2.attribute)
+        self.assertEqual(10, self.article.article_field)
+        self.assertEqual(20, self.article_2.article_field)
 
     def test_304_descriptor_type_error_message(self):
         """Should include the attribute's name, the expected type, and the received type."""
         with self.assertRaises(TypeError) as assertion_context:
-            self.article.attribute = "some string"
+            self.article.article_field = "some string"
 
         exception_message = str(assertion_context.exception)
         self.assertIn(
@@ -213,7 +213,7 @@ class T300AdvancedTests(unittest.TestCase):
             msg="The exception message should include the expected type",
         )
         self.assertIn(
-            "attribute",
+            "article_field",
             exception_message,
             msg="The exception message should include the name of the attribute",
         )
